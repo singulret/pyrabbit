@@ -83,6 +83,7 @@ class HTTPClient(object):
 
         """
         url = urljoin(self.base_url, path)
+        print("url:{url} method:{method}".format(url=url, method=method))
         try:
             resp = requests.request(method, url, data=body, headers=headers,
                                     auth=self.auth, timeout=self.timeout)
