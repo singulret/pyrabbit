@@ -613,14 +613,14 @@ class Client(object):
         return self._call(path, 'DELETE', headers=Client.json_headers)
 
     def get_messages(self, vhost, qname, count=1,
-                     requeue=False, truncate=None, encoding='auto'):
+                     ackmode='ack_requeue_true', truncate=None, encoding='auto'):
         """
         Gets <count> messages from the queue.
 
         :param string vhost: Name of vhost containing the queue
         :param string qname: Name of the queue to consume from
         :param int count: Number of messages to get.
-        :param bool requeue: Whether to requeue the message after getting it.
+        :param string ackmode: Whether to requeue the message after getting it.
             This will cause the 'redelivered' flag to be set in the message on
             the queue.
         :param int truncate: The length, in bytes, beyond which the server will
@@ -630,7 +630,7 @@ class Client(object):
         """
 
         vhost = quote(vhost, '')
-        base_body = {'count': count, 'requeue': requeue, 'encoding': encoding}
+        base_body = {'count': count, 'ackmode': ackmode, 'encoding': encoding}
         if truncate:
             base_body['truncate'] = truncate
         body = json.dumps(base_body)
